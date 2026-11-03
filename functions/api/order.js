@@ -20,5 +20,5 @@ try {
     })));
     return json({ paid: true, kind: 'books', downloads });
   }
-  return json({ paid: false }, 404):
+  return json({ paid: false }, 404);
 }
