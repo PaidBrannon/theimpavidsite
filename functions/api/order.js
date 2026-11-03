@@ -9,7 +9,7 @@ try {
 } catch (error) {
   console.error('Stripe checkout verification failed:', error);
   return json({ paid: false, error: 'Stripe verification failed. Check Cloudflare runtime logs.' }, 502);
-} '/checkout/sessions/' + sid); } catch { return json({ paid: false }, 404); }
+} 
   if (s.payment_status !== 'paid') return json({ paid: false });
   const m = s.metadata || {};
   if (m.kind === 'consultation') return json({ paid: true, kind: 'consultation', category: m.category_label, package: m.package_label });
