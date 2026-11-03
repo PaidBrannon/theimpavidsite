@@ -3,7 +3,13 @@ import { json, stripe, signToken, validSession, BOOKS } from '../../server/lib.j
 export async function onRequestGet({ request, env }) {
   const sid = new URL(request.url).searchParams.get('session_id');
   if (!validSession(sid)) return json({ paid: false }, 400);
-  let s; try { s = await stripe(env, 'GET', '/checkout/sessions/' + sid); } catch { return json({ paid: false }, 404); }
+ let s;
+try {
+  s = await stripe(env, 'GET', '/checkout/sessions/' + sid);
+} catch (error) {
+  console.error('Stripe checkout verification failed:', error);
+  return json({ paid: false, error: 'Stripe verification failed. Check Cloudflare runtime logs.' }, 502);
+} '/checkout/sessions/' + sid); } catch { return json({ paid: false }, 404); }
   if (s.payment_status !== 'paid') return json({ paid: false });
   const m = s.metadata || {};
   if (m.kind === 'consultation') return json({ paid: true, kind: 'consultation', category: m.category_label, package: m.package_label });
