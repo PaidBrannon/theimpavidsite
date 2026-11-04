@@ -21,5 +21,8 @@ export async function onRequestPost({ request, env }) {
       cancel_url: origin + '/#booking',
     });
     return json({ url: s.url });
-  } catch { return json({ error: 'Could not start checkout. Please try again.' }, 502); }
+  } catch (err) {
+    console.error('Consultation checkout failed:', err instanceof Error ? err.message : 'Unknown error');
+    return json({ error: 'Could not start checkout. Please try again.' }, 502);
+  }
 }
