@@ -111,9 +111,30 @@ async function post(u,b){const r=await fetch(u,{method:'POST',headers:{'Content-
 async function payConsult(){const e=m=>{bk.err=m;route()};if(!bk.pkg)return e('Choose a package.');if(bk.name.trim().length<2)return e('Enter your full name.');if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(bk.email.trim()))return e('Enter a valid email address.');if(!/^[0-9+()\-.\s]{7,25}$/.test(bk.phone.trim()))return e('Enter a valid phone number.');bk.err='';bk.busy=true;route();
  try{const j=await post('/api/checkout-consultation',{category:CATS[bk.svc][0],package:bk.pkg,name:bk.name.trim(),email:bk.email.trim(),phone:bk.phone.trim()});location.href=j.url}catch(x){bk.busy=false;e(x.message)}}
 async function payBooks(){const el=$('#ce');try{const j=await post('/api/checkout-books',{items:Object.keys(cart)});location.href=j.url}catch(x){el.textContent=x.message}}
-async function loadOrder(){const el=$('#ok'),sid=new URLSearchParams(location.search).get('session_id');if(!el)return;if(!sid){el.textContent='No order found. If you just paid, contact support@theimpavid.com.';return}
- try{const j=await (await fetch('/api/order?session_id='+encodeURIComponent(sid))).json();if(!j.paid){el.innerHTML='<p>Your payment is not confirmed yet. Reload in a moment, or contact support@theimpavid.com.</p>';return}
- el.innerHTML=j.kind==='consultation'?`<h2>Payment received</h2><p>Thank you for booking with The Impavid! Your payment has been received. We will contact you within 24–48 hours to personally arrange your consultation.</p><p class="note">${esc(j.category)} · ${esc(j.package)}</p>`:`<h2>Your books</h2>${j.downloads.map(d=>`<a class="btn" href="${esc(d.url)}">Download ${esc(d.title)} (EPUB)</a>`).join('<br>')}<p class="note">Download links expire after 15 minutes. Reload this page for fresh links.</p>`}catch{el.textContent='We could not confirm your order. Please contact support@theimpavid.com.'}}
+async function loadOrder(){
+ const el=$('#ok'),sid=new URLSearchParams(location.search).get('session_id');
+ if(!el)return;
+ if(!sid){el.textContent='No checkout session found. Please return using your Stripe payment confirmation link.';return}
+ try{
+  const response=await fetch('/api/order?session_id='+encodeURIComponent(sid),{cache:'no-store'});
+  const j=await response.json();
+  if(!response.ok||!j.paid){
+   const msg=typeof j.error==='string'?j.error:'Order verification is temporarily unavailable.';
+   el.textContent=msg+' If you have already paid, do not pay again. Contact support@theimpavid.com with your receipt.';
+   return;
+  }
+  if(j.kind==='consultation'){
+   el.innerHTML=`<h2>Payment received</h2><p>Thank you for booking with The Impavid! Your payment has been received. We will contact you within 24–48 hours to personally arrange your consultation.</p><p class="note">${esc(j.category)} · ${esc(j.package)}</p>`;
+  }else if(j.kind==='books'&&Array.isArray(j.downloads)){
+   el.innerHTML='<h2>Your books</h2>'+j.downloads.map(d=>`<a class="btn" href="${esc(d.url)}">Download ${esc(d.title)} (EPUB)</a>`).join('<br>')+'<p class="note">Download links expire after 15 minutes. Reload this page for fresh links.</p>';
+  }else{
+   el.textContent='Payment confirmed, but the order details were incomplete. Contact support@theimpavid.com.';
+  }
+ }catch(error){
+  console.error('Order confirmation request failed:',error);
+  el.textContent='Could not reach the order verification service. If you already paid, do not pay again. Please reload or contact support@theimpavid.com.';
+ }
+}
 /* ---- tools ---- */
 function credit(){const v=$('#cs').value,n=+v,e=$('#cse');if(!v||!Number.isInteger(n)||n<300||n>850){e.textContent='Enter a whole number from 300 to 850.';$('#cso').innerHTML='';return}e.textContent='';
  const R=[[579,'Poor','Approval is difficult and costs are typically higher.','Secured cards, credit-builder loans; some subprime auto loans.','Limited options; higher interest likely.','Pay on time, lower balances, dispute errors, avoid new applications.'],[669,'Fair','Some options exist, usually at higher cost.','Credit cards, auto loans, some personal loans; FHA-type mortgages.','Higher rates than top tiers.','Cut utilization below 30%, keep accounts current.'],[739,'Good','Near or above average; many options.','Most cards, auto, personal and mortgage loans.','Best offers may still be out of reach.','Keep utilization low and history long.'],[799,'Very Good','Lenders generally view this favorably.','Wide range including competitive mortgage and business financing.','Little; minor rate differences.','Maintain habits; compare offers.'],[850,'Exceptional','Top tier among borrowers.','Broadest access, often the most favorable terms.','Score alone does not guarantee approval.','Maintain habits and review reports yearly.']];
