@@ -54,10 +54,15 @@ export async function verifySquareOrder(env, reference) {
   if (!order || order.id !== record.orderId || order.reference_id !== reference ||
       order.location_id !== env.SQUARE_LOCATION_ID || order.state !== 'COMPLETED' ||
       Number(order.total_money?.amount) !== record.amount || order.total_money?.currency !== 'USD') return null;
-  const paymentsResponse = await square(env, 'GET', '/payments?order_id=' + encodeURIComponent(record.orderId));
-  const payments = paymentsResponse.payments || [];
-  const paid = payments.some(p => p.order_id === record.orderId &&
-    p.location_id === env.SQUARE_LOCATION_ID && p.status === 'COMPLETED' &&
-    p.amount_money?.currency === 'USD' && Number(p.amount_money?.amount) === record.amount);
+  const tenders = order.tenders || [];
+  let paid = false;
+  for (const tender of tenders) {
+    if (!tender.payment_id) continue;
+    const paymentResponse = await square(env, 'GET', '/payments/' + encodeURIComponent(tender.payment_id));
+    const p = paymentResponse.payment;
+    if (p?.order_id === record.orderId && p.location_id === env.SQUARE_LOCATION_ID &&
+        p.status === 'COMPLETED' && p.amount_money?.currency === 'USD' &&
+        Number(p.amount_money?.amount) === record.amount) { paid = true; break; }
+  }
   return paid ? record : null;
 }
