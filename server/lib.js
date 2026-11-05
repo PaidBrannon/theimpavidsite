@@ -23,9 +23,11 @@ function form(params) {
   return out;
 }
 export async function stripe(env, method, path, params) {
+  const stripeKey = typeof env.STRIPE_SECRET_KEY === 'string' ? env.STRIPE_SECRET_KEY.trim() : '';
+  if (!stripeKey) throw new Error('Stripe secret key is not configured');
   const r = await fetch('https://api.stripe.com/v1' + path, {
     method,
-    headers: { Authorization: 'Bearer ' + env.STRIPE_SECRET_KEY, ...(method === 'POST' ? { 'Content-Type': 'application/x-www-form-urlencoded' } : {}) },
+    headers: { Authorization: 'Bearer ' + stripeKey, ...(method === 'POST' ? { 'Content-Type': 'application/x-www-form-urlencoded' } : {}) },
     body: method === 'POST' ? form(params) : undefined,
   });
   const j = await r.json().catch(() => ({}));
@@ -42,7 +44,7 @@ export async function stripe(env, method, path, params) {
 // and belongs to the expected product. A mismatch blocks checkout instead of charging the wrong amount.
 // Env var (if set) overrides the built-in ID, e.g. when switching from test to live mode.
 // Mode follows the Stripe secret key, so test and live Price IDs can never be mixed by accident.
-export const stripeMode = (env) => (/^[sr]k_live_/.test(env.STRIPE_SECRET_KEY || '') ? 'live' : 'test');
+export const stripeMode = (env) => (/^[sr]k_live_/.test((env.STRIPE_SECRET_KEY || '').trim()) ? 'live' : 'test');
 export async function checkedPrice(env, item) {
   const id = env[item.price] || item[stripeMode(env)]; // optional PRICE_* env var overrides the built-in ID
   if (!id) throw new Error('No ' + stripeMode(env) + ' Price ID configured for ' + item.name);
