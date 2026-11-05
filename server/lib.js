@@ -28,8 +28,13 @@ export async function stripe(env, method, path, params) {
     headers: { Authorization: 'Bearer ' + env.STRIPE_SECRET_KEY, ...(method === 'POST' ? { 'Content-Type': 'application/x-www-form-urlencoded' } : {}) },
     body: method === 'POST' ? form(params) : undefined,
   });
-  const j = await r.json();
-  if (!r.ok) throw new Error('Stripe error ' + r.status);
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) {
+    // Stripe's structured error code is safe to log; never log credentials or request bodies.
+    const code = String(j.error?.code || 'unknown').replace(/[^a-zA-Z0-9_]/g, '').slice(0, 80);
+    const type = String(j.error?.type || 'unknown').replace(/[^a-zA-Z0-9_]/g, '').slice(0, 80);
+    throw new Error('Stripe HTTP ' + r.status + ' type=' + type + ' code=' + code);
+  }
   return j;
 }
 
