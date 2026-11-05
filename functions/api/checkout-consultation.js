@@ -23,6 +23,6 @@ export async function onRequestPost({ request, env }) {
     return json({ url: s.url });
   } catch (err) {
     console.error('Consultation checkout failed:', err instanceof Error ? err.message : 'Unknown error');
-    return json({ error: 'Could not start checkout. Please try again.' }, 502);
+    return json({ error: 'Could not start checkout. Please try again.', diagnostic: err instanceof Error ? err.message.replace(/price_[A-Za-z0-9]+/g, '[price]') : 'unknown' }, 503);
   }
 }
