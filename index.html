@@ -112,11 +112,11 @@ async function payConsult(){const e=m=>{bk.err=m;route()};if(!bk.pkg)return e('C
  try{const j=await post('/api/checkout-consultation',{category:CATS[bk.svc][0],package:bk.pkg,name:bk.name.trim(),email:bk.email.trim(),phone:bk.phone.trim()});location.href=j.url}catch(x){bk.busy=false;e(x.message)}}
 async function payBooks(){const el=$('#ce');try{const j=await post('/api/checkout-books',{items:Object.keys(cart)});location.href=j.url}catch(x){el.textContent=x.message}}
 async function loadOrder(){
- const el=$('#ok'),sid=new URLSearchParams(location.search).get('session_id');
+ const el=$('#ok'),sid=new URLSearchParams(location.search).get('square_ref');
  if(!el)return;
- if(!sid){el.textContent='No checkout session found. Please return using your Stripe payment confirmation link.';return}
+ if(!sid){el.textContent='No Square checkout reference found. Please return using your Square payment confirmation link.';return}
  try{
-  const response=await fetch('/api/order?session_id='+encodeURIComponent(sid),{cache:'no-store'});
+  const response=await fetch('/api/order?square_ref='+encodeURIComponent(sid),{cache:'no-store'});
   const j=await response.json();
   if(!response.ok||!j.paid){
    const msg=typeof j.error==='string'?j.error:'Order verification is temporarily unavailable.';
