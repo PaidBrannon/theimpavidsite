@@ -1,13 +1,13 @@
-// Square sandbox checkout helpers. Secrets stay in Cloudflare Pages environment.
+// Square checkout helpers. Credentials are configured per Cloudflare Pages environment.
 import { json, BOOKS, PACKAGES, CATEGORIES } from './lib.js';
 export { json, BOOKS, PACKAGES, CATEGORIES };
 export function squareConfig(env) {
-  if (env.SQUARE_ENVIRONMENT !== 'sandbox') throw new Error('Square sandbox configuration required');
+  if (!['sandbox', 'production'].includes(env.SQUARE_ENVIRONMENT)) throw new Error('Square environment must be sandbox or production');
   if (!env.SQUARE_ACCESS_TOKEN || !env.SQUARE_LOCATION_ID) throw new Error('Square credentials missing');
 }
 export async function square(env, method, path, payload) {
   squareConfig(env);
-  const response = await fetch('https://connect.squareupsandbox.com/v2' + path, {
+  const response = await fetch((env.SQUARE_ENVIRONMENT === 'production' ? 'https://connect.squareup.com/v2' : 'https://connect.squareupsandbox.com/v2') + path, {
     method, headers: { Authorization: 'Bearer ' + env.SQUARE_ACCESS_TOKEN,
       'Square-Version': '2025-10-16', 'Content-Type': 'application/json' },
     ...(payload ? { body: JSON.stringify(payload) } : {}),
