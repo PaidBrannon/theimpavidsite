@@ -6,6 +6,7 @@ export const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s,
 export const BOOKS = {
   rg:  { title: 'Relationship Goals', cents: 499, name: 'relationship goals', key: 'BOOK_KEY_RELATIONSHIP_GOALS', file: 'relationship-goals.epub' },
   wws: { title: 'Watch Where You’re Standing: The Three Circles Method', cents: 499, name: 'watch where', key: 'BOOK_KEY_WWYS', file: 'watch-where-youre-standing.epub' },
+  mom: { title: 'Mind Over Mirror', cents: 499, name: 'mind over mirror', key: 'BOOK_KEY_MIND_OVER_MIRROR', file: 'mind-over-mirror.epub' },
 };
 export const PACKAGES = {
   essential: { label: 'Essential', cents: 5000, name: 'essential', usd: 50, min: 30 },
