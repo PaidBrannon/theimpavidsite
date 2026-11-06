@@ -1,13 +1,13 @@
 import {json,BOOKS,verifySquareOrder} from '../../server/square.js';
 import {signToken,sendEmail,esc} from '../../server/lib.js';
-export async function onRequestGet({request,env,context}){
+export async function onRequestGet({request,env,waitUntil}){
  const ref=new URL(request.url).searchParams.get('square_ref');
  if(!/^[0-9a-f-]{36}$/i.test(ref||''))return json({paid:false,error:'Invalid Square order reference.'},400);
  let order;try{order=await verifySquareOrder(env,ref)}catch(e){console.error(e.message);return json({paid:false,error:'Square verification unavailable.'},502)}
  if(!order)return json({paid:false,error:'Square has not confirmed payment yet.'},202);
  if(order.kind==='consultation'){
   if(env.NOTIFIED && env.RESEND_API_KEY && env.NOTIFY_EMAIL_FROM && env.NOTIFY_EMAIL_TO){
-    context.waitUntil((async()=>{
+    waitUntil((async()=>{
       const flag='square:consult-notified:'+ref;
       if(await env.NOTIFIED.get(flag))return;
       const fields=[['Name',order.name],['Email',order.email],['Phone',order.phone],['Category',order.category_label],['Package',order.package_label],['Square order',order.orderId]];
