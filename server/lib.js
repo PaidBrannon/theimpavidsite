@@ -9,8 +9,8 @@ export const BOOKS = {
 };
 export const PACKAGES = {
   essential: { label: 'Essential', cents: 5000, name: 'essential', usd: 50, min: 30 },
-  extended:  { label: 'Extended',  price: 'PRICE_EXTENDED', live: 'price_1UVnnS2KocqskCUCob4hSgAM', cents: 9900, name: 'extended', usd: 99, min: 60 },
-  premium:   { label: 'Premium',   price: 'PRICE_PREMIUM', live: 'price_1UVnrF2KocqskCUC2VvxOjbk', cents: 19900, name: 'premium',   usd: 199, min: 90 },
+  extended:  { label: 'Extended', cents: 9900, name: 'extended', usd: 99, min: 60 },
+  premium:   { label: 'Premium', cents: 19900, name: 'premium',   usd: 199, min: 90 },
 };
 export const CATEGORIES = { 'financial-wellness': 'Financial Wellness', 'health-fitness': 'Health & Fitness', 'personal-development': 'Personal Development' };
 export const esc = (x) => String(x ?? '').replace(/[&<>"']/g, (c) => '&#' + c.charCodeAt(0) + ';');
