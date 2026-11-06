@@ -52,13 +52,15 @@ export async function verifySquareOrder(env, reference) {
   const orderResponse = await square(env, 'GET', '/orders/' + encodeURIComponent(record.orderId));
   const order = orderResponse.order;
   if (!order || order.id !== record.orderId || order.reference_id !== reference ||
-      order.location_id !== env.SQUARE_LOCATION_ID || order.state !== 'COMPLETED' ||
+      order.location_id !== env.SQUARE_LOCATION_ID || !['OPEN', 'COMPLETED'].includes(order.state) ||
       Number(order.total_money?.amount) !== record.amount || order.total_money?.currency !== 'USD') return null;
   const tenders = order.tenders || [];
   let paid = false;
   for (const tender of tenders) {
-    if (!tender.payment_id) continue;
-    const paymentResponse = await square(env, 'GET', '/payments/' + encodeURIComponent(tender.payment_id));
+    // Square may identify the payment via tender.id rather than tender.payment_id.
+    const paymentId = tender.payment_id || tender.id;
+    if (!paymentId) continue;
+    const paymentResponse = await square(env, 'GET', '/payments/' + encodeURIComponent(paymentId));
     const p = paymentResponse.payment;
     if (p?.order_id === record.orderId && p.location_id === env.SQUARE_LOCATION_ID &&
         p.status === 'COMPLETED' && p.amount_money?.currency === 'USD' &&
