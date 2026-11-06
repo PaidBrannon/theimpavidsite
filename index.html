@@ -65,7 +65,7 @@ const $=s=>document.querySelector(s),app=$('#app');
 const BOOKS={
  rg:{t:'Relationship Goals',sub:'A Modern Guide To Getting More Out Of Your Bank',cat:'Financial Wellness',c:'fin',fmt:'EPUB e-book (instant download)',price:4.99,img:'assets/relationship-goals.jpg',d:'A modern guide to understanding banking relationships and financial opportunities. Also available on Kindle at $8.99 (free with Kindle Unlimited).'},
  wws:{t:'Watch Where You’re Standing',sub:'The Three Circles Method',cat:'Personal Development',c:'mind',fmt:'EPUB e-book (instant download)',price:4.99,img:'assets/watch-where-youre-standing.jpg',d:'A personal development book on emotional awareness, perspective and the Three Circles Method.'},
- mom:{t:'Mind Over Mirror',sub:'Become More Than What You See',cat:'Health & Fitness',c:'fit',fmt:'EPUB e-book (instant download)',price:4.99,d:'A personal journey through physical transformation, discipline, nutrition, and the spiritual growth that happens when you keep showing up for yourself. '}};
+ mom:{t:'Mind Over Mirror',sub:'Become More Than What You See',cat:'Health & Fitness',c:'fit',fmt:'EPUB e-book (instant download)',price:4.99,img:'assets/mind-over-mirror-cover.jpg',d:'A personal journey through physical transformation, discipline, nutrition, and the spiritual growth that happens when you keep showing up for yourself. '}};
 const SVC={fin:{n:'Financial Wellness Consultation',c:'fin'},mind:{n:'Personal Development Consultation',c:'mind'},fit:{n:'Fitness & Wellness Consultation',c:'fit'}};
 let cart={},bk={svc:'fin',pkg:null,name:'',email:'',phone:'',err:'',busy:false},quiz={i:0,a:[]};
 const money=n=>'$'+n.toFixed(2),cnt=()=>Object.values(cart).reduce((a,b)=>a+b,0);
