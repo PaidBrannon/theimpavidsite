@@ -86,6 +86,29 @@ footer{background:var(--card);border-top:1px solid var(--line);padding:30px 0;fo
 .imp-path.fit .imp-path-art{animation-delay:-2s}.imp-path.mind .imp-path-art{animation-delay:-4s}
 @media(max-width:700px){.imp-hero{padding:48px 0 32px}.imp-hero-grid{grid-template-columns:1fr;gap:12px}.imp-showcase{height:270px;max-width:410px;width:100%;margin:auto}.imp-path{grid-template-columns:minmax(0,1fr) 95px;padding:22px 16px;gap:10px;min-height:0}.imp-path-art{width:90px}.imp-path h3{font-size:1.35rem}.imp-path p{font-size:.9rem}.imp-actions .btn{font-size:.79rem;padding:9px 11px}}
 @media(prefers-reduced-motion:reduce){.imp-book,.imp-path-art{animation:none!important}}
+
+/* Dark Cinematic homepage theme: scoped to home only, not checkout or other pages */
+body:has(.imp-hero){--bg:#0b111b;--card:#172131;--ink:#f3f5fa;--mut:#bac6d6;--line:#334154;background:#0b111b;color:#f3f5fa}
+body:has(.imp-hero) header{background:#101722;border-bottom-color:#303b4d;color:#f3f5fa}
+body:has(.imp-hero) header .logo,body:has(.imp-hero) header nav a{color:#f3f5fa}
+body:has(.imp-hero) header nav a:hover,body:has(.imp-hero) header nav a.on{background:#263349}
+body:has(.imp-hero) header nav a.cta{background:#d9480f;color:white}
+body:has(.imp-hero) .burger{color:white;border-color:#42516a}
+body:has(.imp-hero) nav.open{background:#101722}
+body:has(.imp-hero) section{background:linear-gradient(160deg,#0b111b 0%,#111b2b 54%,#0c1521 100%);color:#f3f5fa}
+body:has(.imp-hero) .imp-hero{background:radial-gradient(ellipse at 76% 40%,#273c58 0%,#121e30 48%,#080e18 100%)}
+body:has(.imp-hero) .imp-path{background:linear-gradient(125deg,#1b273a 0%,#111b2a 70%);border-color:#39465b;border-left-color:var(--accent);box-shadow:0 16px 36px rgba(0,0,0,.23)}
+body:has(.imp-hero) .imp-paths .imp-path:nth-child(1){background:linear-gradient(120deg,#251d29,#131b2a 72%)}
+body:has(.imp-hero) .imp-paths .imp-path:nth-child(2){background:linear-gradient(120deg,#2c211d,#131b2a 72%)}
+body:has(.imp-hero) .imp-paths .imp-path:nth-child(3){background:linear-gradient(120deg,#132d2b,#111b2a 72%)}
+body:has(.imp-hero) .imp-path p,body:has(.imp-hero) .imp-section-intro p{color:#bdc8d8}
+body:has(.imp-hero) .imp-actions .imp-outline{color:#f3f5fa;background:rgba(255,255,255,.04);border-color:#64748b}
+body:has(.imp-hero) .card{background:linear-gradient(145deg,#1a283c,#141e2e);border-color:#35445b;color:#f3f5fa}
+body:has(.imp-hero) .card .note{color:#bdc8d8}
+body:has(.imp-hero) .card.link:hover{box-shadow:0 12px 30px rgba(0,0,0,.38)}
+body:has(.imp-hero) .btn:not(.gold):not(.ghost):not(.imp-outline){background:#c33f20;color:#fff}
+body:has(.imp-hero) .btn.ghost{color:#f3f5fa}
+@media(max-width:860px){body:has(.imp-hero) header nav{background:#101722}}
 </style></head><body>
 <header><div class="wrap nav"><a class="logo" href="#home"><svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M13 3a10 10 0 0 1 8.7 5"/><path d="M22 18a10 10 0 0 1-9 5"/><path d="M4 18a10 10 0 0 1 0-9"/><path d="M19 4l3 4-5 1M18 22l-4 1 1-5M4 9l3-4 1 5" stroke-width="1.6"/></svg>THE IMPAVID</a>
 <button class="burger" aria-label="Menu" aria-expanded="false" onclick="toggleNav()">Menu</button>
