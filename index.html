@@ -57,6 +57,35 @@ footer{background:var(--card);border-top:1px solid var(--line);padding:30px 0;fo
 
 /* Contextual consultation action stays visible while reading each explanation */
 .explain-card{position:relative}.explain-cta{position:sticky;bottom:14px;z-index:5;display:flex;justify-content:flex-end;pointer-events:none;margin-top:18px}.explain-cta .btn{pointer-events:auto;margin:0;background:var(--c);color:#fff;box-shadow:0 6px 22px rgba(0,0,0,.24);border-radius:999px;padding:13px 20px}.explain-cta .btn:hover{filter:brightness(1.1)}@media(max-width:600px){.explain-cta{justify-content:center;bottom:12px}.explain-cta .btn{font-size:.86rem;padding:12px 17px}}
+
+/* Homepage editorial showcase: isolated from payments, downloads and other routes */
+.imp-hero{position:relative;overflow:hidden;background:radial-gradient(ellipse at 78% 45%,#273b56 0%,#101c2e 50%,#0b1320 100%);color:#fff;padding:72px 0 65px}
+.imp-hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;min-height:370px}
+.imp-eyebrow{color:#e7b969;text-transform:uppercase;font-size:.72rem;font-weight:800;letter-spacing:.2em;margin-bottom:20px}
+.imp-hero h1{font-size:clamp(2.7rem,5vw,4.5rem);letter-spacing:-.055em;line-height:1.08}
+.imp-hero p{color:#c4cfdf;max-width:520px}
+.imp-showcase{position:relative;height:365px;isolation:isolate}
+.imp-showcase:before{content:"";position:absolute;inset:16% 3%;border:1px solid rgba(238,189,103,.18);border-radius:50%;transform:rotate(-14deg)}
+.imp-book{position:absolute;display:block;filter:drop-shadow(12px 20px 16px rgba(0,0,0,.45));transition:filter .3s;animation:impFloat 6s ease-in-out infinite;transform-origin:center bottom}
+.imp-book img{display:block;width:100%;height:100%;object-fit:contain;border-radius:4px;transform:perspective(700px) rotateY(-10deg)}
+.imp-book:hover{filter:drop-shadow(12px 25px 22px rgba(0,0,0,.65));animation-play-state:paused}
+.imp-book.a{width:38%;height:80%;left:2%;top:11%;transform:rotate(-11deg);animation-delay:-1s;z-index:1}
+.imp-book.b{width:40%;height:90%;left:31%;top:3%;transform:rotate(2deg);animation-delay:-3s;z-index:3}
+.imp-book.c{width:38%;height:80%;right:0;top:11%;transform:rotate(10deg);animation-delay:-5s;z-index:2}
+@keyframes impFloat{0%,100%{translate:0 0}50%{translate:0 -13px}}
+.imp-section-intro{text-align:center;margin-bottom:26px}.imp-section-intro p{margin:0 auto;color:var(--mut)}
+.imp-paths{display:grid;gap:18px}
+.imp-path{--accent:var(--fin);display:grid;grid-template-columns:1fr 210px;gap:28px;align-items:center;position:relative;overflow:hidden;min-height:270px;padding:32px 42px;border-radius:20px;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent)}
+.imp-path.fit{--accent:var(--fit)}.imp-path.mind{--accent:var(--mind)}
+.imp-path:after{content:"";position:absolute;right:-85px;top:-120px;width:350px;height:350px;border:1px solid var(--accent);border-radius:50%;opacity:.18;pointer-events:none}
+.imp-path-copy{position:relative;z-index:1}.imp-path .imp-kicker{color:var(--accent);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800}
+.imp-path h3{font-size:clamp(1.55rem,3vw,2.15rem);margin:9px 0}.imp-path p{color:var(--mut);max-width:55ch}
+.imp-actions{display:flex;flex-wrap:wrap;gap:10px}.imp-actions .btn{margin:0}.imp-actions .imp-outline{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.imp-path-art{display:block;position:relative;z-index:1;justify-self:center;width:170px;animation:impFloat 6s ease-in-out infinite}
+.imp-path-art img{width:100%;height:auto;max-height:230px;object-fit:contain;border-radius:5px;filter:drop-shadow(10px 16px 12px rgba(0,0,0,.28));transform:rotate(5deg)}
+.imp-path.fit .imp-path-art{animation-delay:-2s}.imp-path.mind .imp-path-art{animation-delay:-4s}
+@media(max-width:700px){.imp-hero{padding:48px 0 32px}.imp-hero-grid{grid-template-columns:1fr;gap:12px}.imp-showcase{height:270px;max-width:410px;width:100%;margin:auto}.imp-path{grid-template-columns:minmax(0,1fr) 95px;padding:22px 16px;gap:10px;min-height:0}.imp-path-art{width:90px}.imp-path h3{font-size:1.35rem}.imp-path p{font-size:.9rem}.imp-actions .btn{font-size:.79rem;padding:9px 11px}}
+@media(prefers-reduced-motion:reduce){.imp-book,.imp-path-art{animation:none!important}}
 </style></head><body>
 <header><div class="wrap nav"><a class="logo" href="#home"><svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M13 3a10 10 0 0 1 8.7 5"/><path d="M22 18a10 10 0 0 1-9 5"/><path d="M4 18a10 10 0 0 1 0-9"/><path d="M19 4l3 4-5 1M18 22l-4 1 1-5M4 9l3-4 1 5" stroke-width="1.6"/></svg>THE IMPAVID</a>
 <button class="burger" aria-label="Menu" aria-expanded="false" onclick="toggleNav()">Menu</button>
@@ -87,11 +116,12 @@ function conv(c,h,p,b1,svc,b2,l2){return `<div class="conv ${c}"><h3>${h}</h3><p
 function hero(c,t,p){return `<div class="hero ${c}" style="background:linear-gradient(135deg,#0d1b2e,var(--c))"><div class="wrap"><h1>${t}</h1><p>${p}</p></div></div>`}
 /* ---- pages ---- */
 const P={
-home:()=>`<div class="hero"><div class="wrap"><h1>Improve your mind. Strengthen your body. Build your future.</h1><p>The Impavid provides the knowledge, resources, and guidance to help you take control of your financial wellness, physical health, and personal development.</p><a class="btn gold" href="#growth">Explore our services</a><a class="btn ghost" href="#booking">Book a consultation</a></div></div>
-<section><div class="wrap"><div class="grid">
-<a class="card link fin" href="#financial"><div class="bar"></div><span class="tag">Build your wealth</span><h3>Financial Wellness</h3><p class="note">Credit, banking and financial literacy.</p></a>
-<a class="card link mind" href="#growth"><div class="bar"></div><span class="tag">Strengthen your mind</span><h3>Personal Development</h3><p class="note">Mindset, awareness and goals.</p></a>
-<a class="card link fit" href="#fitness"><div class="bar"></div><span class="tag">Improve your health</span><h3>Health & Fitness</h3><p class="note">Training, nutrition and wellness.</p></a></div></div></section>
+home:()=>`<div class="imp-hero"><div class="wrap imp-hero-grid"><div><div class="imp-eyebrow">The Impavid · Books & guidance</div><h1>Build a life you believe in.</h1><p>Real experience. Practical tools. A stronger mind, a healthier body, and a more confident financial future.</p><a class="btn gold" href="#store">Explore the books</a><a class="btn ghost" href="#booking">Book a consultation</a></div><div class="imp-showcase" aria-label="Featured books by Austin Brannon"><a class="imp-book a" href="#product-rg" aria-label="Explore Relationship Goals"><img src="${BOOKS.rg.img}" alt="Relationship Goals book cover"></a><a class="imp-book b" href="#product-mom" aria-label="Explore Mind Over Mirror"><img src="${BOOKS.mom.img}" alt="Mind Over Mirror book cover"></a><a class="imp-book c" href="#product-wws" aria-label="Explore Watch Where You’re Standing"><img src="${BOOKS.wws.img}" alt="Watch Where You’re Standing book cover"></a></div></div></div>
+<section><div class="wrap"><div class="imp-section-intro"><h2>Find your path forward.</h2><p>Three areas of growth. One place to start.</p></div><div class="imp-paths">
+<article class="imp-path fin"><div class="imp-path-copy"><div class="imp-kicker">01 / Financial Wellness</div><h3>Make your money make sense.</h3><p>Understand credit, banking relationships, and the choices that shape your financial future.</p><div class="imp-actions"><a class="btn" href="#financial">Explore financial wellness</a><a class="btn imp-outline" href="#booking" onclick="bk.svc='fin';bk.pkg=null">Financial consultation</a></div></div><a class="imp-path-art" href="#product-rg" aria-label="Explore Relationship Goals"><img loading="lazy" src="${BOOKS.rg.img}" alt="Relationship Goals cover"></a></article>
+<article class="imp-path fit"><div class="imp-path-copy"><div class="imp-kicker">02 / Health & Fitness</div><h3>Change your mind. Change your mirror.</h3><p>Build consistency, confidence, and a healthier relationship with the work of showing up.</p><div class="imp-actions"><a class="btn" href="#fitness">Explore health & fitness</a><a class="btn imp-outline" href="#booking" onclick="bk.svc='fit';bk.pkg=null">Fitness consultation</a></div></div><a class="imp-path-art" href="#product-mom" aria-label="Explore Mind Over Mirror"><img loading="lazy" src="${BOOKS.mom.img}" alt="Mind Over Mirror cover"></a></article>
+<article class="imp-path mind"><div class="imp-path-copy"><div class="imp-kicker">03 / Personal Development</div><h3>Know where you're standing.</h3><p>Understand your emotions, sharpen your perspective, and take your next step with intention.</p><div class="imp-actions"><a class="btn" href="#growth">Explore personal development</a><a class="btn imp-outline" href="#booking" onclick="bk.svc='mind';bk.pkg=null">View consultation options</a></div></div><a class="imp-path-art" href="#product-wws" aria-label="Explore Watch Where You’re Standing"><img loading="lazy" src="${BOOKS.wws.img}" alt="Watch Where You’re Standing cover"></a></article>
+</div></div></section>
 <section style="padding-top:0"><div class="wrap"><h2>Discover your starting point</h2><p>Every journey begins with understanding where you stand.</p><div class="grid">
 ${toolCard(0,'fin','What can your credit score do for you?','Enter a score you already know and see what it may open up.','financial')}
 ${toolCard(0,'fit','Try our free BMI calculator','A quick adult screening measure with a reference weight range.','fitness')}
