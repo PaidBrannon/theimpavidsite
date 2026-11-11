@@ -130,7 +130,7 @@ async function loadOrder(){
   if(j.kind==='consultation'){
    el.innerHTML=`<h2>Payment received</h2><p>Thank you for booking with The Impavid! Your payment has been received. We will contact you within 24–48 hours to personally arrange your consultation.</p><p class="note">${esc(j.category)} · ${esc(j.package)}</p>`;
   }else if(j.kind==='books'&&Array.isArray(j.downloads)){
-   el.innerHTML='<h2>Your books</h2>'+j.downloads.map(d=>`<a class="btn" href="${esc(d.url)}">Download ${esc(d.title)} (EPUB)</a>`).join('<br>')+'<p class="note">Download links expire after 15 minutes. Reload this page for fresh links.</p>';
+   el.innerHTML='<h2>Your purchased ebooks</h2><p>Your payment is confirmed. Save this page until your books are in your reading app.</p>'+j.downloads.map(d=>`<p><a class="btn" href="${esc(d.url)}" download>Download ${esc(d.title)} (.epub)</a></p>`).join('')+'<h3>Reading on your phone</h3><p><b>iPhone or iPad:</b> Tap Download. Open the Files app, find the EPUB in Downloads (check On My iPhone/iPad and iCloud Drive), tap it, and use Share → Books if needed. Confirm the book appears in Apple Books before closing this page.</p><p><b>Android:</b> Tap Download. Open Files / My Files → Downloads, then open the EPUB with a compatible reader such as Google Play Books.</p><p class="note">Download links expire after 15 minutes. Reload this purchase confirmation page for new links. If you lose this page, contact support@theimpavid.com with your receipt. You do not need to purchase again.</p>';
   }else{
    el.textContent='Payment confirmed, but the order details were incomplete. Contact support@theimpavid.com.';
   }
